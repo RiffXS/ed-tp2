@@ -146,9 +146,9 @@ void transfer_patient_to_exam(Queue *patient_queue, Queue *exam_queue) {
     }
 }
 
-void random_symptom (Queue *exam_queue) {
+void random_symptom(Queue *exam_queue) {
 
-    char sympthom[20];
+    char sympthom[30];
     int gravidade;
     
     // Inicializa a semente com o valor do relógio atual
@@ -158,31 +158,51 @@ void random_symptom (Queue *exam_queue) {
     double random_number = (double)rand() / RAND_MAX;
     printf("%.6f\n", random_number);
 
-    if (random_number <= 0.3)
+    if (random_number <= 0.3){
         gravidade = 1;
         snprintf(sympthom, sizeof(sympthom), "Saúde Normal");
-    if (random_number <= 0.5)
+    }
+    
+    if (0.3 < random_number && random_number <= 0.5){
         gravidade = 2;
         snprintf(sympthom, sizeof(sympthom), "Bronquite");
-    if (random_number <= 0.6)
+    }
+    
+    if (0.5 < random_number && random_number <= 0.6){
         gravidade = 3;
         snprintf(sympthom, sizeof(sympthom), "Pneumonia");
-    if (random_number <= 0.7)
+    }
+    
+    if (0.6 < random_number && random_number <= 0.7){
         gravidade = 4;
         snprintf(sympthom, sizeof(sympthom), "COVID");
-    if (random_number <= 0.75)
+    }
+    
+    if (0.7 < random_number && random_number <= 0.75){
         gravidade = 4;
         snprintf(sympthom, sizeof(sympthom), "Embolia pulmonar");
-    if (random_number <= 0.8)
+    }
+    
+    if (0.75 < random_number && random_number <= 0.8){
         gravidade = 4;
         snprintf(sympthom, sizeof(sympthom), "Derrame pleural");
-    if (random_number <= 0.85)
+    }
+    
+    if (0.8 < random_number && random_number <= 0.85){
         gravidade = 5;
         snprintf(sympthom, sizeof(sympthom), "Fibrose pulmonar");
-    if (random_number <= 0.9)
+    }
+    
+    if (0.85 < random_number && random_number <= 0.9) {
         gravidade = 5;
         snprintf(sympthom, sizeof(sympthom), "Tuberculose");
-    if (random_number <= 1)
+    }
+    
+    if (0.9 < random_number) {
         gravidade = 6;
         snprintf(sympthom, sizeof(sympthom), "Câncer de pulmão");
+    }
+    
+    printf(sympthom);
+
 }
