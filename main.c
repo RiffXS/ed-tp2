@@ -10,7 +10,7 @@ int main() {
     Queue *q = q_create();
 
     // Create a new exam queue
-    Queue *exames = q_create();
+    Queue *MaquinaExame = q_create();
     
     // Definindo uma data de nascimento fictícia para o paciente
     struct tm birthdate = {0};
@@ -26,18 +26,20 @@ int main() {
     
     //q_print(q); printando pra ver se foi
 
-    // AQUI ERA PRA TER O CODIGO DO db_patient.txt mas ne (=
+    // AQUI ERA PRA TER O CODIGO DO db_patient.txt mas ne
 
-    // Transferir o paciente da fila para a fila de exames (ainda não tem o limite de 5 exames, nem sair apos 10 u de tempo))
-    transfer_patient_to_exam(q, exames);
+    // Transferir o paciente da fila para a fila de MaquinaExame (ainda não tem o limite de 5 MaquinaExame, nem sair apos 10 u de tempo))
+    transfer_patient_to_exam(q, MaquinaExame);
 
-    //q_print(exames);
+    random_symptom(MaquinaExame);
+    
+    //q_print(MaquinaExame);
 
     // Imprimindo informações do paciente criado
-    printf("Paciente criado:\n");
-    printf("ID: %d\n", get_patient_id(patient));
-    printf("Nome: %s\n", get_patient_name(patient));
-    printf("Data de nascimento: %s\n", asctime(get_patient_birthdate(patient)));
+    //printf("Paciente criado:\n");
+    //printf("ID: %d\n", get_patient_id(patient));
+    //printf("Nome: %s\n", get_patient_name(patient));
+    //printf("Data de nascimento: %s\n", asctime(get_patient_birthdate(patient)));
 
     // Definindo uma data e hora fictícias para o exame
     time_t current_time;
@@ -51,11 +53,11 @@ int main() {
     Exam *exam = create_exam(101, get_patient_id(patient), 1, exam_time);
 
     // Imprimindo informações do exame criado
-    printf("\nExame criado:\n");
-    printf("ID: %d\n", get_exam_id(exam));
-    printf("ID do Paciente: %d\n", get_exam_patient_id(exam));
-    printf("ID do Aparelho de Raio-X: %d\n", get_exam_rx_id(exam));
-    printf("Data e Hora do Exame: %s\n", asctime(get_exam_time(exam)));
+    //printf("\nExame criado:\n");
+    //printf("ID: %d\n", get_exam_id(exam));
+    //printf("ID do Paciente: %d\n", get_exam_patient_id(exam));
+    //printf("ID do Aparelho de Raio-X: %d\n", get_exam_rx_id(exam));
+    //printf("Data e Hora do Exame: %s\n", asctime(get_exam_time(exam)));
 
     // Liberando a memória alocada
     destroy_exam(exam);
@@ -64,4 +66,3 @@ int main() {
 
     return 0;
 }
-
