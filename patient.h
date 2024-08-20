@@ -50,7 +50,8 @@ void q_print(Queue *q);
 // Transfer a patient from the patient queue to the exam queue
 void transfer_patient_to_exam(Queue *patient_queue, Queue *exam_queue);
 
+// Generate a random symptom for the exam queue (so tem o randomico e ifs)
+void random_symptom(Queue *exam_queue);
+
 // End of conditional compilation directives
 #endif
-
-
