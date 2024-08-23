@@ -2,12 +2,16 @@
 #define EXAM_H
 
 // Define a forward declaration of a 'exam' structure
+typedef struct condition Condition;
 typedef struct exam Exam;
 
 // Function prototypes
 
 // Create a new Exam and return a pointer to it
-Exam *exam_create(int id, int patient_id, int rx_id, int timestamp);
+Exam *exam_create(int id, int patient_id, int xr_id, Condition *condition_IA, int timestamp);
+
+// Inserts Exam in a file
+void exam_file_insert(Exam *e);
 
 // Free the memory associated with the exam
 void exam_destroy(Exam *exam);
@@ -19,7 +23,13 @@ int get_exam_id(Exam *exam);
 int get_exam_patient_id(Exam *exam);
 
 // Get the X-ray machine ID for the exam
-int get_exam_rx_id(Exam *exam);
+int get_exam_xr_id(Exam *exam);
+
+// Get the name of the condition diagnosed by the AI
+char *get_exam_condition_name(Exam *exam);
+
+// Get the gravity of the condition diagnosed by the AI
+int get_exam_condition_gravity(Exam *exam);
 
 // Get the time of realization of the exam
 int get_exam_timestamp(Exam *exam);

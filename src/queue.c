@@ -47,7 +47,7 @@ void pq_destroy(PatientQueue *pq) {
   // Getting the start of the PatientQueue
   PatientQueueNode *p = pq->front;
 
-  // Freeing the memory for the PatientQueueNode
+  // Freeing the memory for all the PatientQueueNodes
   while (p != NULL) {
     PatientQueueNode *t = p->next;
     patient_destroy(p->info);
@@ -118,3 +118,89 @@ struct exam_priority_queue_node {
   Exam *info;
   ExamPriorityQueueNode *next;
 };
+
+// Create a new ExamPriorityQueue and return a pointer to it
+ExamPriorityQueue *epq_create() {
+  // Allocating the memory for ExamPriorityQueue
+  ExamPriorityQueue *epq = (ExamPriorityQueue *)malloc(sizeof(ExamPriorityQueue));
+
+  // Defining the front and rear of ExamPriorityQueue as NULL
+  epq->front = epq->rear = NULL;
+
+  // Returning created ExamPriorityQueue
+  return epq;
+}
+
+// Verifies if the ExamPriorityQueue is empty
+int epq_is_empty(ExamPriorityQueue *epq) {
+  return epq->front == NULL;
+}
+
+// Free the memory associated with the ExamPriorityQueue
+void epq_destroy(ExamPriorityQueue *epq) {
+  // Getting the start of the PatientQueue
+  ExamPriorityQueueNode *e = epq->front;
+
+  // Freeing the memory for all the ExamPriorityQueueNodes
+  while (e != NULL) {
+    ExamPriorityQueueNode *t = e->next;
+    exam_destroy(e->info);
+    free(e);
+    e = t;
+  }
+
+  // Freeing the memory for ExamPriorityQueue
+  free(epq);
+}
+
+// Enqueues an Exam to the end of the queue
+void epq_enqueue(ExamPriorityQueue *epq, Exam *e) {
+  // Creating a new queue node
+  ExamPriorityQueueNode *node = (ExamPriorityQueueNode *)malloc(sizeof(ExamPriorityQueueNode));
+
+  // Inserting the values into the node
+  node->info = e;
+  node->next = NULL;
+
+  // Verifying if the Queue is empty to enqueue the Exam to the correct place
+  if (epq_is_empty(epq)) {
+    epq->front = node;
+    epq->rear = node;
+  } else {
+    // Getting the front node to go through the queue
+    ExamPriorityQueueNode *p = epq->front;
+
+    // Loop to get the position of the new node
+    while (get_exam_condition_gravity(e) <= get_exam_condition_gravity(p->info) && p->next != NULL) {
+      p = p->next;
+    }
+
+    // Verifying if it is not the end of the Queue
+    if (p->next != NULL)
+      node->next = p->next->next;
+
+    // Putting the node at its Priority driven place
+    p->next = node;
+  }
+}
+
+// Dequeues the Exam at the front and returns it
+Exam *epq_dequeue(ExamPriorityQueue *epq) {
+  assert(!epq_is_empty(epq));
+
+  // Getting the values to return and to free
+  Exam *e = epq->front->info;
+  ExamPriorityQueueNode *node = epq->front; // Storing for removal
+
+  // Verifies if the queue only has one element, if yes, front and rear are NULL, if not, front->next is the new front
+  if (epq->front != epq->rear)
+    epq->front = epq->front->next;
+  else
+    epq->front = epq->rear = NULL;
+
+  // Frees the memory for the node
+  free(node);
+
+  // Returns the Exam
+  return e;
+}

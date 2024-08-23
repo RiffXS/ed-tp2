@@ -4,13 +4,27 @@
 // Getting TADs for Exam and Patient
 #include "exam.h"
 #include "patient.h"
+#include "xrmachine.h"
 
 // Getting standard C libraries
 #include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+void start() {
+  FILE *exam = fopen("db_exam.txt", "w");
+  FILE *report = fopen("db_report.txt", "w");
+  FILE *patient = fopen("db_patient.txt", "w");
+
+  fclose(exam);
+  fclose(report);
+  fclose(patient);
+}
+
 int main() {
+  // Creates the necessary db files if they do not exist, and if they do, overwrite them
+  start();
+
   // Declaring Constants
   int N = 1000;
 
@@ -27,15 +41,21 @@ int main() {
   char f_name[10][10] = {"Ana", "Luiza", "Thiago", "Lorena", "Rafael", "Leticia", "Josias", "Davi", "Duda", "Paulo"};
 
   // Vector of Second Names for the patients
-  char s_name[10][10] = {"Lasanha", "Hamburger", "Pizza", "Arros", "Feijao", "Macarrao", "Silva", "Turra", "Barros", "Paixao"};
+  char s_name[10][10] = {"Lasanha", "Hamburger", "Pizza", "Arroz", "Feijao", "Macarrao", "Pneu", "Aros", "Onibus", "Paixao"};
 
   // Creating a new PatientQueue
   PatientQueue *pq = pq_create();
 
+  // Creating a new XRMachineManager
+  XRMachineManager *xrmm = xrmm_create();
+
+  // Creating a new ExamPriorityQueue
+  ExamPriorityQueue *epq = epq_create();
+
   // Creating a scructure to get current time in milliseconds
   struct timeval ts;
 
-  while (1) {
+  while (timestamp < 7200) {
     gettimeofday(&ts, NULL);
     srand(ts.tv_usec);
 
@@ -53,20 +73,30 @@ int main() {
 
       pq_enqueue(pq, p);
 
-
+      patient++;
     }
+
+    if (!xrmm_is_empty(xrmm) && timestamp - get_xrm_timestamp(get_xrmm_front(xrmm)) >= 10) {
+      Exam *e = xrm_exam(xrmm_dequeue(xrmm), exam, timestamp);
+
+      exam++;
+
+      epq_enqueue(epq, e);
+    }
+    
+    if (!pq_is_empty(pq) && get_xrmm_size(xrmm) < 5) {
+      xrmm_enqueue(xrmm, pq_dequeue(pq), get_xrmm_size(xrmm), timestamp);
+    }
+
+    timestamp++;
   }
 
-  // // Definindo uma data de nascimento fictícia para o paciente
-  // Patient *p1 = patient_create(1, "Joao Silva", 5);
-  // Patient *p2 = patient_create(2, "Rafael Barros", 5);
+  // Deallocating the memory for the Data Structures
+  pq_destroy(pq);
 
-  // pq_enqueue(pq, p1);
-  // pq_enqueue(pq, p2);
+  xrmm_destroy(xrmm);
 
-  // pq_print(pq);
-
-  // pq_destroy(pq);
+  epq_destroy(epq);
 
   return 0;
 }

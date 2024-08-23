@@ -41,4 +41,13 @@ typedef struct exam_priority_queue_node ExamPriorityQueueNode;
 // Create a new ExamPriorityQueue and return a pointer to it
 ExamPriorityQueue *epq_create();
 
+// Free the memory associated with the ExamPriorityQueue
+void epq_destroy(ExamPriorityQueue *epq);
+
+// Enqueues an Exam to the end of the queue
+void epq_enqueue(ExamPriorityQueue *epq, Exam *e);
+
+// Dequeues the Exam at the front and returns it
+Exam *epq_dequeue(ExamPriorityQueue *epq);
+
 #endif
