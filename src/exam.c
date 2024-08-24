@@ -80,12 +80,17 @@ int get_exam_xr_id(Exam *exam) {
   return exam->xr_id;
 }
 
-// Get the name of the condition diagnosed by the AI
+// Get the condition diagnosed
+Condition *get_exam_condition(Exam *exam) {
+  return exam->condition_IA;
+}
+
+// Get the name of the condition diagnosed
 char *get_exam_condition_name(Exam *exam) {
   return get_condition_name(exam->condition_IA);
 }
 
-// Get the gravity of the condition diagnosed by the AI
+// Get the gravity of the condition diagnosed
 int get_exam_condition_gravity(Exam *exam) {
   return get_condition_gravity(exam->condition_IA);
 }

@@ -50,4 +50,9 @@ void epq_enqueue(ExamPriorityQueue *epq, Exam *e);
 // Dequeues the Exam at the front and returns it
 Exam *epq_dequeue(ExamPriorityQueue *epq);
 
+// Returns the Exam at the front of the Queue
+Exam *get_epq_front(ExamPriorityQueue *epq);
+
+void epq_print(ExamPriorityQueue *epq);
+
 #endif

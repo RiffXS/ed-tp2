@@ -14,9 +14,9 @@
 
 // Structure of XRMachine
 struct xr_machine {
-  int xr_id;
-  Patient *p;
-  int start_time;
+  int id;
+  Patient *patient;
+  int timestamp;
 };
 
 struct xr_machine_node {
@@ -65,9 +65,9 @@ void xrmm_enqueue(XRMachineManager *xrmm, Patient *p, int machine, int timestamp
   XRMachine *xr = (XRMachine *)malloc(sizeof(XRMachine));
   XRMachineNode *xrn = (XRMachineNode *)malloc(sizeof(XRMachineNode));
 
-  xr->xr_id = machine;
-  xr->p = p;
-  xr->start_time = timestamp;
+  xr->id = machine;
+  xr->patient = p;
+  xr->timestamp = timestamp;
 
   xrn->info = xr;
   xrn->next = NULL;
@@ -85,7 +85,7 @@ void xrmm_enqueue(XRMachineManager *xrmm, Patient *p, int machine, int timestamp
 XRMachine *xrmm_dequeue(XRMachineManager *xrmm) {
   assert(!xrmm_is_empty(xrmm));
 
-  XRMachine *xrm = xrmm->front->info;
+  XRMachine *xr = xrmm->front->info;
   XRMachineNode *xrn = xrmm->front;
 
   if (xrmm->front != xrmm->rear)
@@ -97,7 +97,7 @@ XRMachine *xrmm_dequeue(XRMachineManager *xrmm) {
 
   free(xrn);
 
-  return xrm;
+  return xr;
 }
 
 // Function to verify if 10 units of time passed and create an Exam for the Patient
@@ -120,17 +120,17 @@ XRMachine *get_xrmm_front(XRMachineManager *xrmm) {
 
 // Function to return the id of the machine
 int get_xrm_id(XRMachine *xrm) {
-  return xrm->xr_id;
+  return xrm->id;
 }
 
 // Function to return the id of the patient using XRMachine
 int get_xrm_patient_id(XRMachine *xrm) {
-  return get_patient_id(xrm->p);
+  return get_patient_id(xrm->patient);
 }
 
 // Function to return the time the XRMachine started
 int get_xrm_timestamp(XRMachine *xrm) {
-  return xrm->start_time;
+  return xrm->timestamp;
 }
 
 // Function to return the size of a XRMachineManager

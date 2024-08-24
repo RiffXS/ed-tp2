@@ -164,23 +164,28 @@ void epq_enqueue(ExamPriorityQueue *epq, Exam *e) {
 
   // Verifying if the Queue is empty to enqueue the Exam to the correct place
   if (epq_is_empty(epq)) {
-    epq->front = node;
-    epq->rear = node;
+    epq->front = epq->rear = node;
   } else {
     // Getting the front node to go through the queue
     ExamPriorityQueueNode *p = epq->front;
+    ExamPriorityQueueNode *t = NULL;
 
     // Loop to get the position of the new node
-    while (get_exam_condition_gravity(e) <= get_exam_condition_gravity(p->info) && p->next != NULL) {
+    while (p != NULL && get_exam_condition_gravity(e) <= get_exam_condition_gravity(p->info)) {
+      t = p;
       p = p->next;
     }
 
-    // Verifying if it is not the end of the Queue
-    if (p->next != NULL)
-      node->next = p->next->next;
+    // Putting the current node as the next
+    node->next = p;
 
-    // Putting the node at its Priority driven place
-    p->next = node;
+    // Verifying if it is at the end of the Queue
+    if (t == NULL) {
+      epq->front = node;
+    }
+    else {
+      t->next = node;
+    }
   }
 }
 
@@ -203,4 +208,17 @@ Exam *epq_dequeue(ExamPriorityQueue *epq) {
 
   // Returns the Exam
   return e;
+}
+
+// Returns the Exam at the front of the Queue
+Exam *get_epq_front(ExamPriorityQueue *epq) {
+  return epq->front->info;
+}
+
+void epq_print(ExamPriorityQueue *epq) {
+  for (ExamPriorityQueueNode *p = epq->front; p != NULL; p = p->next) {
+    printf("%d %s %d %d\n", get_exam_id(p->info), get_exam_condition_name(p->info), get_exam_condition_gravity(p->info), get_exam_timestamp(p->info));
+  }
+
+  printf("\n");
 }

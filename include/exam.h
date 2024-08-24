@@ -1,8 +1,10 @@
 #ifndef EXAM_H
 #define EXAM_H
 
+// Getting the Condition TAD
+#include "condition.h"
+
 // Define a forward declaration of a 'exam' structure
-typedef struct condition Condition;
 typedef struct exam Exam;
 
 // Function prototypes
@@ -25,10 +27,13 @@ int get_exam_patient_id(Exam *exam);
 // Get the X-ray machine ID for the exam
 int get_exam_xr_id(Exam *exam);
 
-// Get the name of the condition diagnosed by the AI
+// Get the condition diagnosed
+Condition *get_exam_condition(Exam *exam);
+
+// Get the name of the condition diagnosed
 char *get_exam_condition_name(Exam *exam);
 
-// Get the gravity of the condition diagnosed by the AI
+// Get the gravity of the condition diagnosed
 int get_exam_condition_gravity(Exam *exam);
 
 // Get the time of realization of the exam
