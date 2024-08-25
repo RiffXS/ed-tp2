@@ -26,7 +26,7 @@ make all
 
 </details>
 
-Nesse projeto, existem alguns Tipos Abstratos de Dados (TADs), o Patient, o Exam, a Condition e a XRMachine.
+Nesse projeto, existem alguns Tipos Abstratos de Dados (TADs), o Patient, o Exam, a Condition, a XRMachine, e o Report.
 
 Patient:
 ```c
