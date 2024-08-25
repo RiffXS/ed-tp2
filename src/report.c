@@ -70,6 +70,44 @@ void report_file_insert(Report *r) {
   fclose(file);
 }
 
+// Free the memory associated with the Report
+void report_destroy(Report *r) {
+  free(r->condition);
+  free(r);
+}
+
+
+void report_condition(const char *c, int timestamp, int *sum_cancer, int *qtd_cancer, int *sum_tuberculosis, int *qtd_tuberculosis, int *sum_fibrosis, int *qtd_fibrosis, int *sum_stroke, int *qtd_stroke, int *sum_embolism, int *qtd_embolism, int *sum_covid, int *qtd_covid, int *sum_pneumonia, int *qtd_pneumonia, int *sum_bronchitis, int *qtd_bronchitis, int *sum_healthy, int *qtd_healthy) {
+  if (strcmp(c, "Saude Normal") == 0) {
+    *sum_healthy += timestamp;
+    *qtd_healthy += 1;
+  } else if (strcmp(c, "Bronquite") == 0) {
+    *sum_bronchitis += timestamp;
+    *qtd_bronchitis += 1;
+  } else if (strcmp(c, "Penumonia") == 0) {
+    *sum_pneumonia += timestamp;
+    *qtd_pneumonia += 1;
+  } else if (strcmp(c, "COVID") == 0) {
+    *sum_covid += timestamp;
+    *qtd_covid += 1;
+  } else if (strcmp(c, "Embolia pulmonar") == 0) {
+    *sum_embolism += timestamp;
+    *qtd_embolism += 1;
+  } else if (strcmp(c, "Derrame pleural") == 0) {
+    *sum_stroke += timestamp;
+    *qtd_stroke += 1;
+  } else if (strcmp(c, "Fibrose pulmonar") == 0) {
+    *sum_fibrosis += timestamp;
+    *qtd_fibrosis += 1;
+  } else if (strcmp(c, "Tuberculose") == 0) {
+    *sum_tuberculosis += timestamp;
+    *qtd_tuberculosis += 1;
+  } else if (strcmp(c, "Cancer de pulmao") == 0) {
+    *sum_cancer += timestamp;
+    *qtd_cancer += 1;
+  }
+}
+
 // Get the id of the report
 int get_report_id(Report *report) {
   return report->id;

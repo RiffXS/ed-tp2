@@ -61,6 +61,7 @@ void exam_file_insert(Exam *e) {
 // Free the memory associated with exam
 void exam_destroy(Exam *exam) {
   if (exam != NULL) {
+    free(exam->condition_IA);
     free(exam);
   }
 }
